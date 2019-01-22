@@ -32,27 +32,26 @@
 
 
     <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
 
     <script>
         const app = new Vue({
             el: '#app',
             data: {
+                urlBase: window.location.origin + '/api/tasks',
                 tasks: []
             },
             created: function () {
                 this.getTasks();
             },
             methods: {
-                getTasksService: function () {
-                    const tasks = [
-                        { id: 1, description: 'task' },
-                        { id: 2, description: 'task' },
-                        { id: 3, description: 'task' },
-                    ];
-                    return tasks
+                getTasksService: async function () {
+                    const url = `${this.urlBase}/`;
+                    const result = await axios(url);
+                    return result.data;
                 },
-                getTasks: function () {
-                    this.tasks = this.getTasksService()
+                getTasks: async function () {
+                    this.tasks = await this.getTasksService()
                 }
             }
         });

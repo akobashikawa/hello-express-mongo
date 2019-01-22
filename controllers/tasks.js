@@ -1,12 +1,10 @@
-const controller = {};
+const tasksService = require('../services/tasks');
 
-controller.getAll = (req, res) => {
-    const tasks = [
-        { id: 1, description: 'task' },
-        { id: 2, description: 'task' },
-        { id: 3, description: 'task' },
-    ];
+const controller = () => { };
+
+controller.getAll = async (req, res) => {
+    const tasks = await tasksService.getAll();
     res.json(tasks);
-}
+};
 
 module.exports = controller;
