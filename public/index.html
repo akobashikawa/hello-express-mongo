@@ -11,9 +11,29 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="/">Hello Express Mongo</a>
-    </nav>
+    <div id="app">
+        <nav class="navbar navbar-dark bg-dark">
+            <a class="navbar-brand" href="/">Hello Express Mongo</a>
+        </nav>
+
+        <main>
+            <div class="container">
+                {{ result }}
+            </div>
+        </main>
+    </div>
+
+
+    <script src="js/vue.js"></script>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                result: 1 + 1
+            }
+        });
+    </script>
 </body>
 
 </html>
