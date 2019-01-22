@@ -18,7 +18,14 @@
 
         <main>
             <div class="container">
-                {{ result }}
+                <div class="tasks">
+                    <h2>Tasks</h2>
+                    <ul>
+                        <li v-for="task of tasks">
+                            {{ task.description }}
+                        </li>
+                    </ul>
+                </div>
             </div>
         </main>
     </div>
@@ -30,7 +37,23 @@
         const app = new Vue({
             el: '#app',
             data: {
-                result: 1 + 1
+                tasks: []
+            },
+            created: function () {
+                this.getTasks();
+            },
+            methods: {
+                getTasksService: function () {
+                    const tasks = [
+                        { id: 1, description: 'task' },
+                        { id: 2, description: 'task' },
+                        { id: 3, description: 'task' },
+                    ];
+                    return tasks
+                },
+                getTasks: function () {
+                    this.tasks = this.getTasksService()
+                }
             }
         });
     </script>
