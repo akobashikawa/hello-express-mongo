@@ -30,11 +30,19 @@
 
                 <div class="tasks-list">
                     <button class="btn btn-outline-info btn-sm" @click="getTasks" :disabled="loading">Refresh</button>
-                    <ul class="">
-                        <li v-for=" task of tasks">
-                            {{ task.description }}
-                        </li>
-                    </ul>
+
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr v-for="task of tasks">
+                                <td>
+                                    {{ task.description }}
+                                </td>
+                                <td style="width:100px;">
+                                    <button class="btn btn-outline-danger btn-sm" @click="deleteTask(task._id)" :disabled="loading">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </main>
@@ -61,8 +69,12 @@
             methods: {
                 getTasksService: async function () {
                     const url = `${this.urlBase}/`;
-                    const result = await axios.get(url);
-                    return result.data;
+                    try {
+                        const result = await axios.get(url);
+                        return result.data;
+                    } catch (error) {
+                        console.log(error);
+                    }
                 },
                 getTasks: async function () {
                     this.loading = true;
@@ -76,13 +88,36 @@
 
                 addTaskService: async function (data) {
                     const url = `${this.urlBase}/`;
-                    const result = await axios.post(url, data);
-                    console.log(result);
+                    try {
+                        const result = await axios.post(url, data);
+                        console.log(result);
+                    } catch (error) {
+                        console.log(error);
+                    }
                 },
                 addTask: async function () {
                     this.loading = true;
                     try {
                         await this.addTaskService(this.newTask);
+                        this.getTasks();
+                    } catch (error) {
+                        console.log(error);
+                    }
+                },
+
+                deleteTaskService: async function (id) {
+                    const url = `${this.urlBase}/${id}`;
+                    try {
+                        const result = await axios.delete(url);
+                        console.log(result);
+                    } catch (error) {
+                        console.log(error);
+                    }
+                },
+                deleteTask: async function (id) {
+                    this.loading = true;
+                    try {
+                        await this.deleteTaskService(id);
                         this.getTasks();
                     } catch (error) {
                         console.log(error);

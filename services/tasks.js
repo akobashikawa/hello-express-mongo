@@ -1,3 +1,5 @@
+// http://www.codingpedia.org/ama/cleaner-code-in-nodejs-with-async-await-mongoose-calls-example
+
 const mongoose = require('mongoose');
 mongoose.connect(`mongodb://localhost:27017/hello-express-mongo`, { useNewUrlParser: true });
 
@@ -15,13 +17,21 @@ service.getAll = async () => {
 };
 
 service.add = async (data) => {
-    const newTask = new Task(data);
-    newTask.save((err, res) => {
-        if (err) {
-            return console.error(err);
-        }
-        return res;
-    });
+    try {
+        const newTask = new Task(data);
+        const result = await newTask.save();
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+service.delete = async (id) => {
+    try {
+        const result = await Task.findOneAndRemove({ _id: id });
+        return result;
+    } catch (error) {
+        console.error(error);
+    }
 };
 
 module.exports = service;
