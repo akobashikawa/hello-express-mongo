@@ -28,17 +28,29 @@
                     </div>
                 </div>
 
-                <div class="tasks-list">
-                    <button class="btn btn-outline-info btn-sm" @click="getTasks" :disabled="loading">Refresh</button>
+                <div class="tasks-list" v-if="(tasks.length > 0)">
+                    <div class="text-right">
+                        <button class="btn btn-outline-info btn-sm" @click="getTasks" :disabled="loading">Refresh</button>
+                    </div>
 
-                    <table class="table table-hover">
+                    <table class="table table-hover mt-1">
                         <tbody>
-                            <tr v-for="task of tasks">
+                            <tr v-for="task in tasks">
                                 <td>
-                                    {{ task.description }}
+                                    <div class="task-view" v-if="true">
+                                        {{ task.description }}
+                                        edit: {{ task }}
+                                    </div>
+                                    <div class="task-edit" v-if="true">
+                                        <input type="text" class="form-control" v-model="task.descriptionUpdate" placeholder="Description">
+                                    </div>
                                 </td>
                                 <td style="width:100px;">
-                                    <button class="btn btn-outline-danger btn-sm" @click="deleteTask(task._id)" :disabled="loading">Delete</button>
+                                    <div class="btn-group">
+                                        <button class="btn btn-outline-info btn-sm" @click="editTask(task)" :disabled="loading">Edit</button>
+                                        <button class="btn btn-outline-info btn-sm" @click="saveTask(task)" :disabled="loading">Save</button>
+                                        <button class="btn btn-outline-danger btn-sm" @click="deleteTask(task)" :disabled="loading">Delete</button>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
@@ -114,15 +126,25 @@
                         console.log(error);
                     }
                 },
-                deleteTask: async function (id) {
+                deleteTask: async function (task) {
                     this.loading = true;
                     try {
-                        await this.deleteTaskService(id);
+                        await this.deleteTaskService(task._id);
                         this.getTasks();
                     } catch (error) {
                         console.log(error);
                     }
-                }
+                },
+
+                editTask: function (task) {
+                    task = Object.assign({}, task, { editing: true, descriptionUpdate: task.description });
+                    console.log(task, this.tasks);
+                },
+
+                saveTask: function (task) {
+                    task.editing = false;
+                    console.log(task, this.tasks);
+                },
             }
         });
     </script>
