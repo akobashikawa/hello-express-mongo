@@ -1,5 +1,7 @@
+require('dotenv').config();
+
 const mongoose = require('mongoose');
-mongoose.connect(`mongodb://localhost:27017/hello-express-mongo`, { useNewUrlParser: true });
+mongoose.connect(`${process.env.MONGO_URL}`, { useNewUrlParser: true });
 
 const model = mongoose.model('Task', { description: String });
 
