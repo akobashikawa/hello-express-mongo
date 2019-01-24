@@ -11,6 +11,9 @@ const app = new Vue({
     created: function () {
         this.getTasks();
     },
+    mounted: function () {
+        // console.log(this.$refs);
+    },
     methods: {
         getTasksService: async function () {
             const url = `${this.urlBase}/`;
@@ -72,6 +75,13 @@ const app = new Vue({
         editTask: function (task) {
             this.$set(task, 'editing', true);
             this.$set(task, 'descriptionUpdate', task.description);
+            // this seems tricky
+            this.$nextTick(() => {
+                this.$refs['task_' + task._id][0].focus();
+            });
+        },
+        cancelEditTask: function (task) {
+            this.$set(task, 'editing', false);
         },
 
         saveTaskService: async function (task) {

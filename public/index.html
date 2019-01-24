@@ -37,18 +37,19 @@
                         <tbody>
                             <tr v-for="task in tasks">
                                 <td>
-                                    <div class="task-view" v-if="!task.editing">
+                                    <div class="task-view" v-if="!task.editing" @dblclick="editTask(task)">
                                         {{ task.description }}
                                     </div>
-                                    <div class="task-edit" v-if="task.editing">
-                                        <input type="text" class="form-control" v-model="task.descriptionUpdate" placeholder="Description">
+                                    <div class="task-edit" v-show="task.editing">
+                                        <input type="text" class="form-control" v-model="task.descriptionUpdate" :ref="'task_' + task._id" placeholder="Description" v-on:keyup.esc="cancelEditTask(task)">
                                     </div>
                                 </td>
                                 <td style="width:100px;">
                                     <div class="btn-group">
-                                        <button class="btn btn-outline-info btn-sm" @click="editTask(task)" :disabled="loading" v-if="!task.editing">Edit</button>
                                         <button class="btn btn-outline-info btn-sm" @click="saveTask(task)" :disabled="loading" v-if="task.editing">Save</button>
-                                        <button class="btn btn-outline-danger btn-sm" @click="deleteTask(task)" :disabled="loading">Delete</button>
+                                        <button class="btn btn-outline-secondary btn-sm" @click="cancelEditTask(task)" v-if="task.editing">Cancel</button>
+                                        <button class="btn btn-outline-info btn-sm" @click="editTask(task)" :disabled="loading" v-if="!task.editing">Edit</button>
+                                        <button class="btn btn-outline-danger btn-sm" @click="deleteTask(task)" :disabled="loading" v-if="!task.editing">Delete</button>
                                     </div>
                                 </td>
                             </tr>
