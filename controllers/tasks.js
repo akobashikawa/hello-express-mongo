@@ -37,4 +37,17 @@ controller.delete = async (req, res) => {
     }
 };
 
+controller.update = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const data = req.body;
+        const result = await tasksService.update(id, data);
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({
+            message: error.message,
+        });
+    }
+};
+
 module.exports = controller;

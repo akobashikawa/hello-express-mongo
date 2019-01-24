@@ -34,4 +34,13 @@ service.delete = async (id) => {
     }
 };
 
+service.update = async (id, data) => {
+    try {
+        const result = await Task.findOneAndUpdate({ _id: id }, data, { new: true });
+        return result;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 module.exports = service;

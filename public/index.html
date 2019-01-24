@@ -37,18 +37,17 @@
                         <tbody>
                             <tr v-for="task in tasks">
                                 <td>
-                                    <div class="task-view" v-if="true">
+                                    <div class="task-view" v-if="!task.editing">
                                         {{ task.description }}
-                                        edit: {{ task }}
                                     </div>
-                                    <div class="task-edit" v-if="true">
+                                    <div class="task-edit" v-if="task.editing">
                                         <input type="text" class="form-control" v-model="task.descriptionUpdate" placeholder="Description">
                                     </div>
                                 </td>
                                 <td style="width:100px;">
                                     <div class="btn-group">
-                                        <button class="btn btn-outline-info btn-sm" @click="editTask(task)" :disabled="loading">Edit</button>
-                                        <button class="btn btn-outline-info btn-sm" @click="saveTask(task)" :disabled="loading">Save</button>
+                                        <button class="btn btn-outline-info btn-sm" @click="editTask(task)" :disabled="loading" v-if="!task.editing">Edit</button>
+                                        <button class="btn btn-outline-info btn-sm" @click="saveTask(task)" :disabled="loading" v-if="task.editing">Save</button>
                                         <button class="btn btn-outline-danger btn-sm" @click="deleteTask(task)" :disabled="loading">Delete</button>
                                     </div>
                                 </td>
@@ -137,13 +136,30 @@
                 },
 
                 editTask: function (task) {
-                    task = Object.assign({}, task, { editing: true, descriptionUpdate: task.description });
-                    console.log(task, this.tasks);
+                    this.$set(task, 'editing', true);
+                    this.$set(task, 'descriptionUpdate', task.description);
                 },
 
-                saveTask: function (task) {
-                    task.editing = false;
-                    console.log(task, this.tasks);
+                saveTaskService: async function (task) {
+                    const url = `${this.urlBase}/${task._id}`;
+                    try {
+                        const result = await axios.put(url, task);
+                        console.log(result);
+                    } catch (error) {
+                        console.log(error);
+                    }
+                },
+                saveTask: async function (task) {
+                    this.loading = true;
+                    this.$set(task, 'editing', false);
+                    // task.description = task.descriptionUpdate;
+                    this.$set(task, 'description', task.descriptionUpdate);
+                    try {
+                        await this.saveTaskService(task);
+                        this.getTasks();
+                    } catch (error) {
+                        console.log(error);
+                    }
                 },
             }
         });
