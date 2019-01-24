@@ -1,9 +1,6 @@
 // http://www.codingpedia.org/ama/cleaner-code-in-nodejs-with-async-await-mongoose-calls-example
 
-const mongoose = require('mongoose');
-mongoose.connect(`mongodb://localhost:27017/hello-express-mongo`, { useNewUrlParser: true });
-
-const Task = mongoose.model('Task', { description: String });
+const Task = require('../models/Task');
 
 const service = () => { };
 
