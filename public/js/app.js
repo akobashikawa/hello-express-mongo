@@ -35,7 +35,7 @@ const app = new Vue({
             const url = `${this.urlBase}/`;
             try {
                 const result = await axios.post(url, data);
-                console.log(result);
+                return result.data;
             } catch (error) {
                 console.log(error);
             }
@@ -54,7 +54,7 @@ const app = new Vue({
             const url = `${this.urlBase}/${id}`;
             try {
                 const result = await axios.delete(url);
-                console.log(result);
+                return result.data;
             } catch (error) {
                 console.log(error);
             }
@@ -78,7 +78,7 @@ const app = new Vue({
             const url = `${this.urlBase}/${task._id}`;
             try {
                 const result = await axios.put(url, task);
-                console.log(result);
+                return result;
             } catch (error) {
                 console.log(error);
             }
@@ -86,7 +86,6 @@ const app = new Vue({
         saveTask: async function (task) {
             this.loading = true;
             this.$set(task, 'editing', false);
-            // task.description = task.descriptionUpdate;
             this.$set(task, 'description', task.descriptionUpdate);
             try {
                 await this.saveTaskService(task);

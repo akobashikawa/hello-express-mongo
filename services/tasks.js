@@ -2,37 +2,34 @@
 
 const { Task } = require('../models');
 
-exports.getAll = async () => {
+exports.getAll = () => {
     try {
-        const result = await Task.find();
-        return result;
+        return Task.find();
     } catch (error) {
         console.error(error);
     }
 };
 
-exports.add = async (data) => {
+exports.add = (data) => {
     try {
         const newTask = new Task(data);
-        const result = await newTask.save();
+        return newTask.save();
     } catch (error) {
         console.error(error);
     }
 };
 
-exports.delete = async (id) => {
+exports.delete = (id) => {
     try {
-        const result = await Task.findOneAndRemove({ _id: id });
-        return result;
+        return Task.findOneAndRemove({ _id: id });
     } catch (error) {
         console.error(error);
     }
 };
 
-exports.update = async (id, data) => {
+exports.update = (id, data) => {
     try {
-        const result = await Task.findOneAndUpdate({ _id: id }, data, { new: true });
-        return result;
+        return Task.findOneAndUpdate({ _id: id }, data, { new: true });
     } catch (error) {
         console.error(error);
     }
