@@ -1,6 +1,6 @@
 // http://www.codingpedia.org/ama/cleaner-code-in-nodejs-with-async-await-mongoose-calls-example
 
-const Task = require('../models/Task');
+const { Task } = require('../models');
 
 exports.getAll = async () => {
     try {
