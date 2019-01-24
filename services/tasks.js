@@ -2,9 +2,7 @@
 
 const Task = require('../models/Task');
 
-const service = () => { };
-
-service.getAll = async () => {
+exports.getAll = async () => {
     try {
         const result = await Task.find();
         return result;
@@ -13,7 +11,7 @@ service.getAll = async () => {
     }
 };
 
-service.add = async (data) => {
+exports.add = async (data) => {
     try {
         const newTask = new Task(data);
         const result = await newTask.save();
@@ -22,7 +20,7 @@ service.add = async (data) => {
     }
 };
 
-service.delete = async (id) => {
+exports.delete = async (id) => {
     try {
         const result = await Task.findOneAndRemove({ _id: id });
         return result;
@@ -31,7 +29,7 @@ service.delete = async (id) => {
     }
 };
 
-service.update = async (id, data) => {
+exports.update = async (id, data) => {
     try {
         const result = await Task.findOneAndUpdate({ _id: id }, data, { new: true });
         return result;
@@ -39,5 +37,3 @@ service.update = async (id, data) => {
         console.error(error);
     }
 };
-
-module.exports = service;

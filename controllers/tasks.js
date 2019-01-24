@@ -1,8 +1,6 @@
 const tasksService = require('../services/tasks');
 
-const controller = () => { };
-
-controller.getAll = async (req, res) => {
+exports.getAll = async (req, res) => {
     try {
         const result = await tasksService.getAll();
         res.json(result);
@@ -13,7 +11,7 @@ controller.getAll = async (req, res) => {
     }
 };
 
-controller.add = async (req, res) => {
+exports.add = async (req, res) => {
     try {
         const data = req.body;
         const result = await tasksService.add(data);
@@ -25,7 +23,7 @@ controller.add = async (req, res) => {
     }
 };
 
-controller.delete = async (req, res) => {
+exports.delete = async (req, res) => {
     try {
         const id = req.params.id;
         const result = await tasksService.delete(id);
@@ -37,7 +35,7 @@ controller.delete = async (req, res) => {
     }
 };
 
-controller.update = async (req, res) => {
+exports.update = async (req, res) => {
     try {
         const id = req.params.id;
         const data = req.body;
@@ -49,5 +47,3 @@ controller.update = async (req, res) => {
         });
     }
 };
-
-module.exports = controller;
