@@ -55,8 +55,8 @@
                                         <button class="btn btn-outline-danger btn-sm" @click="deleteTask(task)" :disabled="loading">Delete</button>
                                     </div>
                                     <div class="btn-group" v-if="!task.editing">
-                                        <button class="btn btn-outline-success btn-sm" @click="doneTask(task)" :disabled="loading" v-if="!task.done">Done</button>
-                                        <button class="btn btn-outline-secondary btn-sm" @click="undoneTask(task)" :disabled="loading" v-if="task.done">Undone</button>
+                                        <button class="btn btn-outline-secondary btn-sm" @click="doneTask(task)" :disabled="loading" v-if="!task.done">Done</button>
+                                        <button class="btn btn-success btn-sm" @click="undoneTask(task)" :disabled="loading" v-if="task.done">Done</button>
                                     </div>
                                 </td>
                             </tr>
