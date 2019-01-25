@@ -4,7 +4,8 @@ const app = new Vue({
         urlBase: window.location.origin + '/api/tasks',
         tasks: [],
         newTask: {
-            description: ''
+            description: '',
+            done: false,
         },
         loading: false,
     },
@@ -84,7 +85,7 @@ const app = new Vue({
             this.$set(task, 'editing', false);
         },
 
-        saveTaskService: async function (task) {
+        updateTaskService: async function (task) {
             const url = `${this.urlBase}/${task._id}`;
             try {
                 const result = await axios.put(url, task);
@@ -98,7 +99,30 @@ const app = new Vue({
             this.$set(task, 'editing', false);
             this.$set(task, 'description', task.descriptionUpdate);
             try {
-                await this.saveTaskService(task);
+                await this.updateTaskService(task);
+                this.getTasks();
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        doneTask: async function (task) {
+            this.loading = true;
+            this.$set(task, 'editing', false);
+            this.$set(task, 'done', true);
+            try {
+                await this.updateTaskService(task);
+                this.getTasks();
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        undoneTask: async function (task) {
+            this.loading = true;
+            this.$set(task, 'editing', false);
+            this.$set(task, 'done', false);
+            try {
+                await this.updateTaskService(task);
                 this.getTasks();
             } catch (error) {
                 console.log(error);
