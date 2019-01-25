@@ -10,6 +10,7 @@ axios.interceptors.request.use(function (config) {
     app.loading = true;
     return config;
 }, function (error) {
+    app.loading = false;
     return Promise.reject(error);
 });
 
@@ -17,6 +18,7 @@ axios.interceptors.response.use(function (response) {
     app.loading = false;
     return response;
 }, function (error) {
+    app.loading = false;
     return Promise.reject(error);
 });
 
