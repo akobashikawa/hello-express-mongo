@@ -1,4 +1,5 @@
 import Tasks from './components/tasks.js';
+import Users from './components/users.js';
 
 Vue.use(Toasted, {
     position: 'bottom-center',
@@ -22,15 +23,9 @@ axios.interceptors.response.use(function (response) {
 const app = new Vue({
     el: '#app',
     data: {
-        baseURL: window.location.origin + '/api/tasks',
-        tasks: [],
-        newTask: {
-            description: '',
-            done: false,
-        },
-        loading: false,
+        loading: false
     },
     components: {
-        Tasks
+        Tasks, Users
     },
 });

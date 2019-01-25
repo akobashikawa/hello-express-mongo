@@ -7,9 +7,9 @@ export default {
                 description: '',
                 done: false,
             },
-            loading: false,
         };
     },
+    props: ['loading'],
     created: function () {
         this.getTasks();
     },
