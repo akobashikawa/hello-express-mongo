@@ -10,6 +10,6 @@ exports.Task = mongoose.model('Task', {
 });
 
 exports.User = mongoose.model('User', {
-    username: { type: String, required: true, trim: true },
+    username: { type: String, required: true, trim: true, unique: true },
     password: { type: String, required: true }
 });

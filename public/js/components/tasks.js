@@ -7,6 +7,7 @@ export default {
                 description: '',
                 done: false,
             },
+            error: '',
         };
     },
     props: ['loading'],
@@ -29,10 +30,12 @@ export default {
             }
         },
         getTasks: async function () {
+            this.error = '';
             try {
                 this.tasks = await this.getTasksService();
             } catch (error) {
                 console.log(error);
+                this.error = error.response.data.message;
                 this.$toasted.show("Problem to list the tasks", {
                     type: 'error'
                 });
@@ -49,11 +52,13 @@ export default {
             }
         },
         addTask: async function () {
+            this.error = '';
             try {
                 await this.addTaskService(this.newTask);
                 this.getTasks();
             } catch (error) {
                 console.log(error);
+                this.error = error.response.data.message;
                 this.$toasted.show("Problem to add the task", {
                     type: 'error'
                 });
@@ -70,11 +75,13 @@ export default {
             }
         },
         deleteTask: async function (task) {
+            this.error = '';
             try {
                 await this.deleteTaskService(task._id);
                 this.getTasks();
             } catch (error) {
                 console.log(error);
+                this.error = error.response.data.message;
                 this.$toasted.show("Problem to delete the task", {
                     type: 'error'
                 });
@@ -82,6 +89,7 @@ export default {
         },
 
         editTask: function (task) {
+            this.error = '';
             this.$set(task, 'editing', true);
             this.$set(task, 'descriptionUpdate', task.description);
             // this seems tricky
@@ -90,6 +98,7 @@ export default {
             });
         },
         cancelEditTask: function (task) {
+            this.error = '';
             this.$set(task, 'editing', false);
         },
 
@@ -103,13 +112,19 @@ export default {
             }
         },
         saveTask: async function (task) {
+            this.error = '';
             this.$set(task, 'editing', false);
+            const bak = {
+                description: task.description,
+            };
             this.$set(task, 'description', task.descriptionUpdate);
             try {
                 await this.updateTaskService(task);
                 this.getTasks();
             } catch (error) {
                 console.log(error);
+                this.$set(task, 'description', bak.description);
+                this.error = error.response.data.message;
                 this.$toasted.show("Problem to save the task", {
                     type: 'error'
                 });
@@ -117,6 +132,7 @@ export default {
         },
 
         doneTask: async function (task) {
+            this.error = '';
             this.$set(task, 'editing', false);
             this.$set(task, 'done', true);
             try {
@@ -124,12 +140,14 @@ export default {
                 this.getTasks();
             } catch (error) {
                 console.log(error);
+                this.error = error.response.data.message;
                 this.$toasted.show("Problem to update the task status", {
                     type: 'error'
                 });
             }
         },
         undoneTask: async function (task) {
+            this.error = '';
             this.$set(task, 'editing', false);
             this.$set(task, 'done', false);
             try {
@@ -137,6 +155,7 @@ export default {
                 this.getTasks();
             } catch (error) {
                 console.log(error);
+                this.error = error.response.data.message;
                 this.$toasted.show("Problem to update the task status", {
                     type: 'error'
                 });
@@ -190,6 +209,8 @@ export default {
                     </tr>
                 </tbody>
             </table>
+
+            <pre class="text-white bg-danger p-2" v-if="error"><div class="text-right"><button class="btn btn-sm btn-danger" @click="error=''">Close</button></div>{{ error }}</pre>
 
         </div>
     </div>`,

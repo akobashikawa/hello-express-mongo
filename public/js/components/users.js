@@ -7,6 +7,7 @@ export default {
                 username: '',
                 password: '',
             },
+            error: '',
         };
     },
     props: ['loading'],
@@ -29,10 +30,12 @@ export default {
             }
         },
         getUsers: async function () {
+            this.error = '';
             try {
                 this.users = await this.getUsersService();
             } catch (error) {
                 console.log(error);
+                this.error = error.response.data.message;
                 this.$toasted.show("Problem to list the users", {
                     type: 'error'
                 });
@@ -49,11 +52,13 @@ export default {
             }
         },
         addUser: async function () {
+            this.error = '';
             try {
                 await this.addUserService(this.newUser);
                 this.getUsers();
             } catch (error) {
                 console.log(error);
+                this.error = error.response.data.message;
                 this.$toasted.show("Problem to add the user", {
                     type: 'error'
                 });
@@ -70,11 +75,13 @@ export default {
             }
         },
         deleteUser: async function (user) {
+            this.error = '';
             try {
                 await this.deleteUserService(user._id);
                 this.getUsers();
             } catch (error) {
                 console.log(error);
+                this.error = error.response.data.message;
                 this.$toasted.show("Problem to delete the user", {
                     type: 'error'
                 });
@@ -82,6 +89,7 @@ export default {
         },
 
         editUser: function (user) {
+            this.error = '';
             this.$set(user, 'editing', true);
             this.$set(user, 'usernameUpdate', user.username);
             this.$set(user, 'passwordUpdate', user.password);
@@ -91,6 +99,7 @@ export default {
             });
         },
         cancelEditUser: function (user) {
+            this.error = '';
             this.$set(user, 'editing', false);
         },
 
@@ -104,7 +113,12 @@ export default {
             }
         },
         saveUser: async function (user) {
+            this.error = '';
             this.$set(user, 'editing', false);
+            const bak = {
+                username: user.username,
+                password: user.pasword
+            };
             this.$set(user, 'username', user.usernameUpdate);
             this.$set(user, 'password', user.passwordUpdate);
             try {
@@ -112,6 +126,9 @@ export default {
                 this.getUsers();
             } catch (error) {
                 console.log(error);
+                this.$set(user, 'username', bak.username);
+                this.$set(user, 'password', bak.password);
+                this.error = error.response.data.message;
                 this.$toasted.show("Problem to save the user", {
                     type: 'error'
                 });
@@ -172,6 +189,8 @@ export default {
                     </tr>
                 </tbody>
             </table>
+
+            <pre class="text-white bg-danger p-2" v-if="error"><div class="text-right"><button class="btn btn-sm btn-danger" @click="error=''">Close</button></div>{{ error }}</pre>
 
         </div>
     </div>`,

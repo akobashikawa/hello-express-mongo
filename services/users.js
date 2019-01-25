@@ -32,7 +32,8 @@ exports.delete = (id) => {
 
 exports.update = (id, data) => {
     try {
-        return User.findOneAndUpdate({ _id: id }, data, { new: true });
+        // https://stackoverflow.com/a/15629463/740552
+        return User.findOneAndUpdate({ _id: id }, data, { new: true, runValidators: true });
     } catch (error) {
         console.error(error);
         throw error;
