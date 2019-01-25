@@ -25,7 +25,7 @@ export default {
                 }
                 return '';
             } catch (error) {
-                console.log(error);
+                throw error;
             }
         },
         getUsers: async function () {
@@ -45,7 +45,7 @@ export default {
                 const result = await axios.post(url, data);
                 return result.data;
             } catch (error) {
-                console.log(error);
+                throw error;
             }
         },
         addUser: async function () {
@@ -66,7 +66,7 @@ export default {
                 const result = await axios.delete(url);
                 return result.data;
             } catch (error) {
-                console.log(error);
+                throw error;
             }
         },
         deleteUser: async function (user) {
@@ -100,7 +100,7 @@ export default {
                 const result = await axios.put(url, user);
                 return result;
             } catch (error) {
-                console.log(error);
+                throw error;
             }
         },
         saveUser: async function (user) {

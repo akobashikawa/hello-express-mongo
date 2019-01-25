@@ -25,7 +25,7 @@ export default {
                 }
                 return '';
             } catch (error) {
-                console.log(error);
+                throw error;
             }
         },
         getTasks: async function () {
@@ -45,7 +45,7 @@ export default {
                 const result = await axios.post(url, data);
                 return result.data;
             } catch (error) {
-                console.log(error);
+                throw error;
             }
         },
         addTask: async function () {
@@ -66,7 +66,7 @@ export default {
                 const result = await axios.delete(url);
                 return result.data;
             } catch (error) {
-                console.log(error);
+                throw error;
             }
         },
         deleteTask: async function (task) {
@@ -99,7 +99,7 @@ export default {
                 const result = await axios.put(url, task);
                 return result;
             } catch (error) {
-                console.log(error);
+                throw error;
             }
         },
         saveTask: async function (task) {

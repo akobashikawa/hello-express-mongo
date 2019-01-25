@@ -7,6 +7,7 @@ exports.getAll = () => {
         return User.find();
     } catch (error) {
         console.error(error);
+        throw error;
     }
 };
 
@@ -16,6 +17,7 @@ exports.add = (data) => {
         return newUser.save();
     } catch (error) {
         console.error(error);
+        throw error;
     }
 };
 
@@ -24,6 +26,7 @@ exports.delete = (id) => {
         return User.findOneAndRemove({ _id: id });
     } catch (error) {
         console.error(error);
+        throw error;
     }
 };
 
@@ -32,5 +35,6 @@ exports.update = (id, data) => {
         return User.findOneAndUpdate({ _id: id }, data, { new: true });
     } catch (error) {
         console.error(error);
+        throw error;
     }
 };

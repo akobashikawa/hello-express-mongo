@@ -7,6 +7,7 @@ exports.getAll = () => {
         return Task.find();
     } catch (error) {
         console.error(error);
+        throw error;
     }
 };
 
@@ -16,6 +17,7 @@ exports.add = (data) => {
         return newTask.save();
     } catch (error) {
         console.error(error);
+        throw error;
     }
 };
 
@@ -24,13 +26,16 @@ exports.delete = (id) => {
         return Task.findOneAndRemove({ _id: id });
     } catch (error) {
         console.error(error);
+        throw error;
     }
 };
 
 exports.update = (id, data) => {
     try {
-        return Task.findOneAndUpdate({ _id: id }, data, { new: true });
+        // https://stackoverflow.com/a/15629463/740552
+        return Task.findOneAndUpdate({ _id: id }, data, { new: true, runValidators: true });
     } catch (error) {
         console.error(error);
+        throw error;
     }
 };
