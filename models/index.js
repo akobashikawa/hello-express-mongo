@@ -1,15 +1,13 @@
 require('dotenv').config();
 
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+
+// models
+const Task = require('./Task');
+const User = require('./User');
+
 mongoose.connect(`${process.env.MONGO_URL}`, { useNewUrlParser: true });
 
-exports.Task = mongoose.model('Task', {
-    description: { type: String, required: true, trim: true },
-    done: Boolean
-});
+exports.Task = Task;
 
-exports.User = mongoose.model('User', {
-    username: { type: String, required: true, trim: true, unique: true },
-    password: { type: String, required: true }
-});
+exports.User = User
