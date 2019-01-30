@@ -92,7 +92,7 @@ export default {
             this.error = '';
             this.$set(user, 'editing', true);
             this.$set(user, 'usernameUpdate', user.username);
-            this.$set(user, 'passwordUpdate', user.password);
+            this.$set(user, 'passwordUpdate', '');
             // this seems tricky
             this.$nextTick(() => {
                 this.$refs['username_' + user._id][0].focus();
@@ -116,8 +116,7 @@ export default {
             this.error = '';
             this.$set(user, 'editing', false);
             const bak = {
-                username: user.username,
-                password: user.pasword
+                username: user.username
             };
             this.$set(user, 'username', user.usernameUpdate);
             this.$set(user, 'password', user.passwordUpdate);
@@ -127,7 +126,6 @@ export default {
             } catch (error) {
                 console.log(error);
                 this.$set(user, 'username', bak.username);
-                this.$set(user, 'password', bak.password);
                 this.error = error.response.data.message;
                 this.$toasted.show("Problem to save the user", {
                     type: 'error'
@@ -162,6 +160,7 @@ export default {
                         <td>
                             <div class="user-view" :class="{'done': user.done}" v-if="!user.editing" @dblclick="editUser(user)">
                                 {{ user.username }}
+                                {{ user.password }}
                             </div>
                             <div class="user-edit" v-show="user.editing">
                                 <div class="form-row">
