@@ -21,4 +21,4 @@ passport.use(new LocalStrategy(function (username, password, done) {
         });
 }));
 
-exports.authenticate = passport.authenticate('local');
+module.exports = passport;
