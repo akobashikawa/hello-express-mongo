@@ -47,3 +47,15 @@ exports.update = async (req, res) => {
         });
     }
 };
+
+exports.login = async (req, res) => {
+    try {
+        const data = req.body;
+        const result = await usersService.login(data);
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({
+            message: error.message,
+        });
+    }
+};

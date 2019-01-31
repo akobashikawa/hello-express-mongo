@@ -57,4 +57,29 @@ exports.update = async (id, data) => {
         console.error(error);
         throw error;
     }
+}
+    ;
+exports.login = async (data) => {
+    console.log(data, data.username);
+    try {
+        const user = await User.findOne({ username: data.username }).select('+password');
+        console.log({ user });
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        const isValidPassword = await user.comparePassword(data.password);
+        if (!isValidPassword) {
+            throw new Error('Invalid password');
+        }
+
+        const result = {
+            username: user.username,
+            token: 'abcde'
+        }
+        return result;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
 };

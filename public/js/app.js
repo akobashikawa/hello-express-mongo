@@ -1,5 +1,6 @@
 import Tasks from './components/tasks.js';
 import Users from './components/users.js';
+import Login from './components/login.js';
 
 Vue.use(Toasted, {
     position: 'bottom-center',
@@ -28,6 +29,6 @@ const app = new Vue({
         loading: false
     },
     components: {
-        Tasks, Users
+        Tasks, Users, Login
     },
 });
