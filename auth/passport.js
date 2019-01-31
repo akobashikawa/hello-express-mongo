@@ -13,8 +13,8 @@ passport.deserializeUser(function (user, done) {
 passport.use(new LocalStrategy(function (username, password, done) {
     const data = { username, password };
     usersService.login(data)
-        .then(result => {
-            return done(null, result);
+        .then(user => {
+            return done(null, user);
         })
         .catch(err => {
             return done(err, false);
