@@ -54,7 +54,7 @@ exports.login = async (req, res) => {
         const result = await usersService.login(data);
         res.json(result);
     } catch (error) {
-        res.status(500).json({
+        res.status(403).json({
             message: error.message,
         });
     }
