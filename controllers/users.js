@@ -60,13 +60,11 @@ exports.login = async (req, res) => {
     }
 }
     ;
-exports.loginSuccess = async (req, res) => {
-    try {
-        const result = req.user;
-        res.json(result);
-    } catch (error) {
-        res.status(403).json({
-            message: error.message,
-        });
-    }
+exports.loginSuccess = (req, res) => {
+    return res.json(req.user);
+};
+
+exports.unauthorized = (req, res) => {
+    console.log(req.user);
+    return res.status(403).json(req.user);
 };

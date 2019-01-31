@@ -1,5 +1,5 @@
 const express = require('express');
-const passport = require('../auth/passport');
+const passportMid = require('../auth/passport');
 
 const router = express.Router();
 const usersController = require('../controllers/users');
@@ -9,6 +9,7 @@ router.post('/', usersController.add);
 router.delete('/:id', usersController.delete);
 router.put('/:id', usersController.update);
 
-router.post('/login', passport.authenticate('local'), usersController.loginSuccess);
+router.post('/login', passportMid.authenticate, usersController.loginSuccess);
+router.get('/unauthorized', usersController.unauthorized);
 
 module.exports = router;
