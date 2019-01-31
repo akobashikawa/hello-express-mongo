@@ -58,4 +58,15 @@ exports.login = async (req, res) => {
             message: error.message,
         });
     }
+}
+    ;
+exports.loginSuccess = async (req, res) => {
+    try {
+        const result = req.user;
+        res.json(result);
+    } catch (error) {
+        res.status(403).json({
+            message: error.message,
+        });
+    }
 };

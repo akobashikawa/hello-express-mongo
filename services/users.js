@@ -57,12 +57,11 @@ exports.update = async (id, data) => {
         console.error(error);
         throw error;
     }
-}
-    ;
+};
+
 exports.login = async (data) => {
     try {
         const user = await User.findOne({ username: data.username }).select('+password');
-        console.log({ user });
         if (!user) {
             throw new Error('User not found or invalid password');
         }
@@ -73,8 +72,7 @@ exports.login = async (data) => {
         }
 
         const result = {
-            username: user.username,
-            token: 'abcde'
+            username: user.username
         }
         return result;
     } catch (error) {
