@@ -42,7 +42,7 @@ export default {
             } catch (error) {
                 console.log(error);
                 this.error = error.response.data.message;
-                this.$toasted.show("Problem to login the users", {
+                this.$toasted.show("Problem to login the user", {
                     type: 'error'
                 });
             }
