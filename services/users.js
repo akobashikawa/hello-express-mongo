@@ -11,6 +11,15 @@ exports.getAll = () => {
     }
 };
 
+exports.get = (id) => {
+    try {
+        return User.findById(id);
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
 exports.add = (data) => {
     try {
         const newUser = new User(data);
@@ -30,10 +39,20 @@ exports.delete = (id) => {
     }
 };
 
-exports.update = (id, data) => {
+exports.update = async (id, data) => {
     try {
-        // https://stackoverflow.com/a/15629463/740552
-        return User.findOneAndUpdate({ _id: id }, data, { new: true, runValidators: true });
+        const user = await User.findOne({ username: data.username }).select('+password');
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        const isValidPassword = await user.comparePassword(data.password);
+        if (!isValidPassword) {
+            throw new Error('Invalid password');
+        }
+
+        user.password = data.passwordUpdate;
+        user.save();
     } catch (error) {
         console.error(error);
         throw error;

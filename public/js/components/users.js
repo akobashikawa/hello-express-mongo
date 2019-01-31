@@ -92,6 +92,7 @@ export default {
             this.error = '';
             this.$set(user, 'editing', true);
             this.$set(user, 'usernameUpdate', user.username);
+            this.$set(user, 'password', '');
             this.$set(user, 'passwordUpdate', '');
             // this seems tricky
             this.$nextTick(() => {
@@ -116,16 +117,17 @@ export default {
             this.error = '';
             this.$set(user, 'editing', false);
             const bak = {
-                username: user.username
+                username: user.username,
             };
             this.$set(user, 'username', user.usernameUpdate);
-            this.$set(user, 'password', user.passwordUpdate);
+            this.$set(user, 'passwordUpdate', user.passwordUpdate);
             try {
                 await this.updateUserService(user);
                 this.getUsers();
             } catch (error) {
                 console.log(error);
                 this.$set(user, 'username', bak.username);
+                this.$set(user, 'password', '');
                 this.error = error.response.data.message;
                 this.$toasted.show("Problem to save the user", {
                     type: 'error'
@@ -164,13 +166,17 @@ export default {
                             </div>
                             <div class="user-edit" v-show="user.editing">
                                 <div class="form-row">
-                                    <div class="col-md-6"> 
+                                    <div class="col-md-4"> 
                                         <label>Username</label>
                                         <input type="text" class="form-control" v-model="user.usernameUpdate" :ref="'username_' + user._id" placeholder="Username" v-on:keyup.esc="cancelEditUser(user)">
                                     </div>
-                                    <div class="col-md-6">
-                                        <label>Password</label>
-                                        <input type="text" class="form-control" v-model="user.passwordUpdate" :ref="'password_' + user._id" placeholder="Password" v-on:keyup.esc="cancelEditUser(user)">
+                                    <div class="col-md-4">
+                                        <label>Current password</label>
+                                        <input type="text" class="form-control" v-model="user.password" placeholder="Current password" v-on:keyup.esc="cancelEditUser(user)">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>New password</label>
+                                        <input type="text" class="form-control" v-model="user.passwordUpdate" placeholder="New password" v-on:keyup.esc="cancelEditUser(user)">
                                     </div>
                                 </div>
                             </div>
