@@ -1,6 +1,9 @@
 const usersService = require('../services/users');
 
 exports.getAll = async (req, res) => {
+    console.log('getAll');
+    console.log('session', req.session);
+    console.log('user', req.user);
     try {
         const result = await usersService.getAll();
         res.json(result);
@@ -58,13 +61,16 @@ exports.login = async (req, res) => {
             message: error.message,
         });
     }
-}
-    ;
-exports.loginSuccess = (req, res) => {
+};
+
+exports.authorized = (req, res) => {
+    console.log('session', req.session);
+    console.log('user', req.user);
     return res.json(req.user);
 };
 
 exports.unauthorized = (req, res) => {
-    console.log(req.user);
+    console.log('session', req.session);
+    console.log('user', req.user);
     return res.status(403).json(req.user);
 };

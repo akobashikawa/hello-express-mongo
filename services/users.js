@@ -72,6 +72,7 @@ exports.login = async (data) => {
         }
 
         const result = {
+            id: user._id,
             username: user.username
         }
         return result;

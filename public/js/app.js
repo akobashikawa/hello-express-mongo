@@ -28,6 +28,11 @@ const app = new Vue({
     data: {
         loading: false
     },
+    mounted: function () {
+        this.$cookies.set('test', { test: 1 + 1 });
+        console.log(window.$cookies.keys());
+        console.log(document.cookie);
+    },
     components: {
         Tasks, Users, Login
     },

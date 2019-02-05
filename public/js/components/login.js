@@ -16,6 +16,12 @@ export default {
                 password: this.password
             };
         },
+        cookies: function () {
+            return window.$cookies.keys();
+        },
+        sessionCookie: function () {
+            return window.$cookies.get('connect.sid');
+        }
     },
     created: function () {
     },
@@ -61,6 +67,9 @@ export default {
                     <button class="btn btn-primary" @click="login" :disabled="loading">Login</button>
                 </div>
             </div>
+
+            <pre>{{cookies}}</pre>
+            <pre>{{sessionCookie}}</pre>
 
             <pre class="text-white bg-success p-2" v-if="user"><div class="text-right"><button class="btn btn-sm btn-success" @click="user=null">Close</button></div>{{ user }}</pre>
 
