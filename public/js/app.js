@@ -29,8 +29,8 @@ const app = new Vue({
         loading: false
     },
     mounted: function () {
-        this.$cookies.set('test', { test: 1 + 1 });
         console.log(window.$cookies.keys());
+        console.log(window.$cookies);
         console.log(document.cookie);
     },
     components: {

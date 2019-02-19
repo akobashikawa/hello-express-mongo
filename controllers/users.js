@@ -64,12 +64,14 @@ exports.login = async (req, res) => {
 };
 
 exports.authorized = (req, res) => {
+    console.log('authorized');
     console.log('session', req.session);
     console.log('user', req.user);
     return res.json(req.user);
 };
 
 exports.unauthorized = (req, res) => {
+    console.log('unauthorized');
     console.log('session', req.session);
     console.log('user', req.user);
     return res.status(403).json(req.user);
