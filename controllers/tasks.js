@@ -1,6 +1,7 @@
 const tasksService = require('../services/tasks');
 
 exports.getAll = async (req, res) => {
+    console.log('user', req.user);
     try {
         const result = await tasksService.getAll();
         res.json(result);
