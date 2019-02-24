@@ -23,7 +23,7 @@
 
             <div class="container-fluid">
 
-                <Login :loading="loading"></Login>
+                <Login :loading="loading" @success="reload"></Login>
                 <Users :loading="loading"></Users>
                 <Tasks :loading="loading"></Tasks>
 
