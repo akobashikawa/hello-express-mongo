@@ -1,6 +1,4 @@
-import Tasks from './components/tasks.js';
-import Users from './components/users.js';
-import Login from './components/login.js';
+import router from './router.js';
 
 Vue.use(Toasted, {
     position: 'bottom-center',
@@ -23,20 +21,27 @@ axios.interceptors.response.use(function (response) {
     return Promise.reject(error);
 });
 
-const app = new Vue({
-    el: '#app',
-    data: {
-        user: null,
-        loading: false
-    },
-    mounted: function () {
-    },
-    components: {
-        Tasks, Users, Login
-    },
-    methods: {
-        reload: function() {
-            window.location.reload();
-        }
-    }
+Vue.component('LoginButton', {
+    template: `
+<div>
+<ul class="navbar-nav px-3">
+    <router-link to="/login" class="nav-link">
+        <i class="material-icons">account_box</i>
+        Login
+    </router-link>
+    <router-link to="/logout" class="nav-link">
+        <i class="material-icons">account_box</i>
+        {{  }} :
+        Logout
+    </router-link>
+</ul>
+</div>`
 });
+
+
+const app = new Vue({
+    router,
+    data: {
+        loading: false
+    }
+}).$mount('#app');
