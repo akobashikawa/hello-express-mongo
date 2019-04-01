@@ -8,7 +8,7 @@ export default {
             error: '',
         };
     },
-    props: ['loading'],
+    props: ['loading', 'logged'],
     computed: {
         loginData: function () {
             return {
@@ -45,6 +45,7 @@ export default {
             this.error = '';
             try {
                 this.user = await this.loginService(this.loginData);
+                this.$emit('success');
             } catch (error) {
                 console.log(error);
                 this.error = error.response.data.message;
@@ -52,6 +53,11 @@ export default {
                     type: 'error'
                 });
             }
+        },
+        logout: function() {
+            console.log('logout');
+            this.$emit('success');
+            return window.$cookies.remove('connect.sid');
         },
 
     },
@@ -65,11 +71,9 @@ export default {
                 <input type="text" class="form-control" v-model="password" placeholder="Password">
                 <div class="input-group-append">
                     <button class="btn btn-primary" @click="login" :disabled="loading">Login</button>
+                    <button v-if="sessionCookie" class="btn btn-warning" @click="logout" :disabled="loading">Logout</button>
                 </div>
             </div>
-
-            <pre>{{cookies}}</pre>
-            <pre>{{sessionCookie}}</pre>
 
             <pre class="text-white bg-success p-2" v-if="user"><div class="text-right"><button class="btn btn-sm btn-success" @click="user=null">Close</button></div>{{ user }}</pre>
 

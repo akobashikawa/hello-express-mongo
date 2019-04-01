@@ -35,7 +35,7 @@ export default {
                 this.users = await this.getUsersService();
             } catch (error) {
                 console.log(error);
-                this.error = error.response.data.message;
+                this.error = error.response.data;
                 this.$toasted.show("Problem to list the users", {
                     type: 'error'
                 });
@@ -58,7 +58,7 @@ export default {
                 this.getUsers();
             } catch (error) {
                 console.log(error);
-                this.error = error.response.data.message;
+                this.error = error.response.data;
                 this.$toasted.show("Problem to add the user", {
                     type: 'error'
                 });
@@ -81,7 +81,7 @@ export default {
                 this.getUsers();
             } catch (error) {
                 console.log(error);
-                this.error = error.response.data.message;
+                this.error = error.response.data;
                 this.$toasted.show("Problem to delete the user", {
                     type: 'error'
                 });
@@ -128,7 +128,7 @@ export default {
                 console.log(error);
                 this.$set(user, 'username', bak.username);
                 this.$set(user, 'password', '');
-                this.error = error.response.data.message;
+                this.error = error.response.data;
                 this.$toasted.show("Problem to save the user", {
                     type: 'error'
                 });
@@ -150,11 +150,11 @@ export default {
             </div>
         </div>
 
-        <div class="users-list" v-if="(users.length > 0)">
+        <div class="text-right">
+            <button class="btn btn-outline-info btn-sm" @click="getUsers" :disabled="loading">get All</button>
+        </div>
 
-            <div class="text-right">
-                <button class="btn btn-outline-info btn-sm" @click="getUsers" :disabled="loading">Refresh</button>
-            </div>
+        <div class="users-list" v-if="(users.length > 0)">
 
             <table class="table table-hover mt-1">
                 <tbody>
@@ -195,8 +195,9 @@ export default {
                 </tbody>
             </table>
 
-            <pre class="text-white bg-danger p-2" v-if="error"><div class="text-right"><button class="btn btn-sm btn-danger" @click="error=''">Close</button></div>{{ error }}</pre>
-
         </div>
+    
+        <pre class="text-white bg-danger p-2" v-if="error"><div class="text-right"><button class="btn btn-sm btn-danger" @click="error=''">Close</button></div>{{ error }}</pre>
+
     </div>`,
 };

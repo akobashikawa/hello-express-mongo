@@ -26,14 +26,17 @@ axios.interceptors.response.use(function (response) {
 const app = new Vue({
     el: '#app',
     data: {
+        user: null,
         loading: false
     },
     mounted: function () {
-        console.log(window.$cookies.keys());
-        console.log(window.$cookies);
-        console.log(document.cookie);
     },
     components: {
         Tasks, Users, Login
     },
+    methods: {
+        reload: function() {
+            window.location.reload();
+        }
+    }
 });
