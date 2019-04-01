@@ -1,4 +1,5 @@
 import router from './router.js';
+import store from './store.js';
 
 Vue.use(Toasted, {
     position: 'bottom-center',
@@ -41,6 +42,7 @@ Vue.component('LoginButton', {
 
 const app = new Vue({
     router,
+    store,
     data: {
         loading: false
     }

@@ -4,7 +4,6 @@ export default {
             baseURL: window.location.origin + '/api/users',
             username: '',
             password: '',
-            user: null,
             error: '',
         };
     },
@@ -21,7 +20,8 @@ export default {
         },
         sessionCookie: function () {
             return window.$cookies.get('connect.sid');
-        }
+        },
+        ...Vuex.mapGetters({ user: 'user' })
     },
     created: function () {
     },
@@ -41,11 +41,10 @@ export default {
             }
         },
         login: async function () {
-            this.user = null;
             this.error = '';
             try {
-                this.user = await this.loginService(this.loginData);
-                this.$emit('success');
+                const user = await this.loginService(this.loginData);
+                this.$store.dispatch('loginUser', user);
             } catch (error) {
                 console.log(error);
                 this.error = error.response.data.message;
@@ -54,9 +53,8 @@ export default {
                 });
             }
         },
-        logout: function() {
+        logout: function () {
             console.log('logout');
-            this.$emit('success');
             return window.$cookies.remove('connect.sid');
         },
 
