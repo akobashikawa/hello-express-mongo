@@ -36,7 +36,7 @@ export default {
             } catch (error) {
                 console.log(error);
                 this.error = error.response.data;
-                this.$toasted.show("Problem to list the tasks>", {
+                this.$toasted.show("Problem to list the tasks", {
                     type: 'error'
                 });
             }
