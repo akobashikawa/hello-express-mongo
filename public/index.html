@@ -8,27 +8,43 @@
     <title>Hello Express Mongo</title>
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     <link rel="stylesheet" href="css/vue-toasted.min.css">
     <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/dashboard.css">
 </head>
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-dark bg-dark">
+        <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
             <a class="navbar-brand" href="/">Hello Express Mongo</a>
             <vue-simple-spinner v-if="loading"></vue-simple-spinner>
         </nav>
 
-        <main>
+        <div class="container-fluid">
+            <div class="row">
+                <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                    <div class="sidebar-sticky">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="/" class="nav-link">
+                                    <i class="material-icons">home</i>
+                                    Home
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
 
-            <div class="container-fluid">
-
-                <Login :loading="loading" @success="reload"></Login>
-                <Users :loading="loading"></Users>
-                <Tasks :loading="loading"></Tasks>
-
+                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                    <Login :loading="loading" @success="reload"></Login>
+                    <Users :loading="loading"></Users>
+                    <Tasks :loading="loading"></Tasks>
+                </main>
             </div>
-        </main>
+        </div>
+
     </div>
 
 
