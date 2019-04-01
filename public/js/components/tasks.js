@@ -134,9 +134,9 @@ export default {
         doneTask: async function (task) {
             this.error = '';
             this.$set(task, 'editing', false);
-            this.$set(task, 'done', true);
             try {
                 await this.updateTaskService(task);
+                this.$set(task, 'done', true);
                 this.getTasks();
             } catch (error) {
                 console.log(error);
@@ -149,9 +149,9 @@ export default {
         undoneTask: async function (task) {
             this.error = '';
             this.$set(task, 'editing', false);
-            this.$set(task, 'done', false);
             try {
                 await this.updateTaskService(task);
+                this.$set(task, 'done', false);
                 this.getTasks();
             } catch (error) {
                 console.log(error);
