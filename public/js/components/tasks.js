@@ -211,7 +211,7 @@ export default {
 
         </div>
 
-        <pre class="text-white bg-danger p-2" v-if="error"><div class="text-right"><button class="btn btn-sm btn-danger" @click="error=''">Close</button></div>{{ error }}</pre>
+        <pre class="text-white bg-danger p-2" v-if="error">{{ error }}</pre>
 
     </div>`,
 };
