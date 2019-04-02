@@ -1,3 +1,5 @@
+import loginService from './services/login.js';
+
 Vue.use(Vuex);
 
 const user = {
@@ -8,18 +10,23 @@ const user = {
         user: state => state.user
     },
     mutations: {
-        login: (state, user) => state.user = user
+        login: (state, user) => state.user = user,
+        logout: (state) => state.user = null
     },
     actions: {
-        loginUser: ({ commit }, payload) => {
-            const user = { id: 'test' };
-            commit('login', user)
+        loginUser: async ({ commit }, loginData) => {
+            const user = await loginService.login(loginData);
+            commit('login', user);
+        },
+        logoutUser: ({ commit }) => {
+            loginService.logout();
+            commit('logout');
         }
     }
 };
 
 export default new Vuex.Store({
     modules: {
-        user: user
+        user
     }
 });

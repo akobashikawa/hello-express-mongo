@@ -16,6 +16,7 @@ axios.interceptors.request.use(function (config) {
 
 axios.interceptors.response.use(function (response) {
     app.loading = false;
+    console.log
     return response;
 }, function (error) {
     app.loading = false;
@@ -26,17 +27,22 @@ Vue.component('LoginButton', {
     template: `
 <div>
 <ul class="navbar-nav px-3">
-    <router-link to="/login" class="nav-link">
+    <router-link to="/login" class="nav-link" v-if="!user">
         <i class="material-icons">account_box</i>
         Login
     </router-link>
-    <router-link to="/logout" class="nav-link">
+    <router-link to="/login" class="nav-link" v-if="user">
         <i class="material-icons">account_box</i>
-        {{  }} :
+        {{ user.username }} :
         Logout
     </router-link>
 </ul>
-</div>`
+</div>`,
+    computed: {
+        user: function () {
+            return this.$store.getters['user'];
+        }
+    }
 });
 
 
@@ -45,5 +51,13 @@ const app = new Vue({
     store,
     data: {
         loading: false
-    }
+    },
+    computed: {
+        cookies: function () {
+            return window.$cookies.keys();
+        },
+        sessionCookie: function () {
+            return window.$cookies.get('connect.sid');
+        },
+    },
 }).$mount('#app');

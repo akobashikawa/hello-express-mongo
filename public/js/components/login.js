@@ -15,36 +15,19 @@ export default {
                 password: this.password
             };
         },
-        cookies: function () {
-            return window.$cookies.keys();
-        },
-        sessionCookie: function () {
-            return window.$cookies.get('connect.sid');
-        },
-        ...Vuex.mapGetters({ user: 'user' })
+        user: function () {
+            return this.$store.getters['user'];
+        }
     },
     created: function () {
     },
     mounted: function () {
     },
     methods: {
-        loginService: async function (loginData) {
-            const url = `${this.baseURL}/login`;
-            try {
-                const result = await axios.post(url, loginData);
-                if (typeof result.data === 'object') {
-                    return result.data;
-                }
-                return '';
-            } catch (error) {
-                throw error;
-            }
-        },
         login: async function () {
             this.error = '';
             try {
-                const user = await this.loginService(this.loginData);
-                this.$store.dispatch('loginUser', user);
+                this.$store.dispatch('loginUser', this.loginData);
             } catch (error) {
                 console.log(error);
                 this.error = error.response.data.message;
@@ -53,9 +36,18 @@ export default {
                 });
             }
         },
-        logout: function () {
+        logout: async function () {
             console.log('logout');
-            return window.$cookies.remove('connect.sid');
+            this.error = '';
+            try {
+                this.$store.dispatch('logoutUser');
+            } catch (error) {
+                console.log(error);
+                this.error = error.response.data.message;
+                this.$toasted.show("Problem to logout the user", {
+                    type: 'error'
+                });
+            }
         },
 
     },
@@ -69,13 +61,13 @@ export default {
                 <input type="text" class="form-control" v-model="password" placeholder="Password">
                 <div class="input-group-append">
                     <button class="btn btn-primary" @click="login" :disabled="loading">Login</button>
-                    <button v-if="sessionCookie" class="btn btn-warning" @click="logout" :disabled="loading">Logout</button>
+                    <button v-if="user" class="btn btn-warning" @click="logout" :disabled="loading">Logout</button>
                 </div>
             </div>
 
-            <pre class="text-white bg-success p-2" v-if="user"><div class="text-right"><button class="btn btn-sm btn-success" @click="user=null">Close</button></div>{{ user }}</pre>
+            <pre class="text-white bg-success p-2" v-if="user">{{ user }}</pre>
 
-            <pre class="text-white bg-danger p-2" v-if="error"><div class="text-right"><button class="btn btn-sm btn-danger" @click="error=''">Close</button></div>{{ error }}</pre>
+            <pre class="text-white bg-danger p-2" v-if="error">{{ error }}</pre>
         </div>
 
     </div>`,

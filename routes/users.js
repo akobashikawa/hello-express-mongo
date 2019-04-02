@@ -10,6 +10,7 @@ router.delete('/:id', passportMid.isAuthenticated, usersController.delete);
 router.put('/:id', passportMid.isAuthenticated, usersController.update);
 
 router.post('/login', passportMid.authenticate, usersController.authorized);
+router.post('/logout', usersController.logout);
 router.get('/authorized', usersController.authorized);
 router.get('/unauthorized', usersController.unauthorized);
 router.get('/logout', passportMid.logout);

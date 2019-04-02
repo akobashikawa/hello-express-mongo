@@ -12,7 +12,6 @@ export default {
     },
     props: ['loading'],
     created: function () {
-        this.getUsers();
     },
     mounted: function () {
     },

@@ -63,6 +63,13 @@ exports.login = async (req, res) => {
     }
 };
 
+exports.logout = (req, res) => {
+    req.logout();
+    res.json({
+        message: 'logged out'
+    });
+};
+
 exports.authorized = (req, res) => {
     console.log('authorized');
     console.log('session', req.session);
