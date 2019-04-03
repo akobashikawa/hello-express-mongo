@@ -7,7 +7,7 @@ const user = {
         user: null
     },
     getters: {
-        user: state => state.user
+        user: state => state.user || window.$cookies.get('user'),
     },
     mutations: {
         login: (state, user) => state.user = user,

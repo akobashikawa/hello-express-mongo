@@ -17,6 +17,9 @@ export default {
         },
         user: function () {
             return this.$store.getters['user'];
+        },
+        isAuthorized: function () {
+            return this.$store.getters['isAuthorized'];
         }
     },
     created: function () {
@@ -41,6 +44,7 @@ export default {
             this.error = '';
             try {
                 this.$store.dispatch('logoutUser');
+                this.$router.push('/');
             } catch (error) {
                 console.log(error);
                 this.error = error.response.data.message;

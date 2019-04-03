@@ -10,6 +10,11 @@ export default {
             error: '',
         };
     },
+    computed: {
+        user: function () {
+            return this.$store.getters['user'];
+        }
+    },
     props: ['loading'],
     created: function () {
     },

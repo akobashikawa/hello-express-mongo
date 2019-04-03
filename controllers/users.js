@@ -64,22 +64,23 @@ exports.login = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
-    req.logout();
+    // req.logout();
+    req.session.destroy();
     res.json({
         message: 'logged out'
     });
 };
 
 exports.authorized = (req, res) => {
-    console.log('authorized');
-    console.log('session', req.session);
-    console.log('user', req.user);
+    console.log('usersController authorized');
+    console.log('req.session', req.session);
+    console.log('req.user', req.user);
     return res.json(req.user);
 };
 
 exports.unauthorized = (req, res) => {
-    console.log('unauthorized');
-    console.log('session', req.session);
-    console.log('user', req.user);
+    console.log('usersController unauthorized');
+    console.log('req.session', req.session);
+    console.log('req.user', req.user);
     return res.status(403).json(req.user);
 };

@@ -37,6 +37,7 @@ passport.use(new LocalStrategy(function (username, password, done) {
 exports.authenticate = passport.authenticate('local', { failWithError: true, session: true });
 
 exports.isAuthenticated = (req, res, next) => {
+    console.log('req.user', req.user);
     if (req.user) {
         return next();
     } else {

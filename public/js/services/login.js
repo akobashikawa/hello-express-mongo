@@ -5,10 +5,12 @@ export default {
         const url = `${this.baseURL}/login`;
         try {
             const result = await axios.post(url, loginData);
+            let user = null;
             if (typeof result.data === 'object') {
-                return result.data;
+                user = result.data;
+                window.$cookies.set('user', user);
             }
-            return null;
+            return user;
         } catch (error) {
             throw error;
         }
@@ -18,6 +20,7 @@ export default {
         const url = `${this.baseURL}/logout`;
         try {
             await axios.post(url, {});
+            window.$cookies.remove('user');
             return null;
         } catch (error) {
             throw error;

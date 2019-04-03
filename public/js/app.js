@@ -16,7 +16,6 @@ axios.interceptors.request.use(function (config) {
 
 axios.interceptors.response.use(function (response) {
     app.loading = false;
-    console.log
     return response;
 }, function (error) {
     app.loading = false;
