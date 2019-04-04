@@ -17,14 +17,7 @@ export default {
         },
         user: function () {
             return this.$store.getters['user'];
-        },
-        isAuthorized: function () {
-            return this.$store.getters['isAuthorized'];
         }
-    },
-    created: function () {
-    },
-    mounted: function () {
     },
     methods: {
         login: async function () {
@@ -43,7 +36,7 @@ export default {
             console.log('logout');
             this.error = '';
             try {
-                this.$store.dispatch('logoutUser');
+                await this.$store.dispatch('logoutUser');
                 this.$router.push('/');
             } catch (error) {
                 console.log(error);

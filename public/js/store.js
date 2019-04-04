@@ -1,4 +1,4 @@
-import loginService from './services/login.js';
+import usersService from './services/users.js';
 
 Vue.use(Vuex);
 
@@ -7,20 +7,24 @@ const user = {
         user: null
     },
     getters: {
-        user: state => state.user || window.$cookies.get('user'),
+        user: state => state.user,
     },
     mutations: {
-        login: (state, user) => state.user = user,
-        logout: (state) => state.user = null
+        setUser: (state, user) => {
+            console.log('store.mutations.setUser', user);
+            state.user = (user ? user : null)
+        },
     },
     actions: {
         loginUser: async ({ commit }, loginData) => {
-            const user = await loginService.login(loginData);
-            commit('login', user);
+            const user = await usersService.login(loginData);
+            commit('setUser', user);
         },
-        logoutUser: ({ commit }) => {
-            loginService.logout();
-            commit('logout');
+        logoutUser: async ({ commit }) => {
+            await usersService.logout();
+            const user = await usersService.getAuthorized();
+            console.log({ user });
+            commit('setUser', user);
         }
     }
 };

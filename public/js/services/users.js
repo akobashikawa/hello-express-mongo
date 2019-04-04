@@ -8,7 +8,6 @@ export default {
             let user = null;
             if (typeof result.data === 'object') {
                 user = result.data;
-                window.$cookies.set('user', user);
             }
             return user;
         } catch (error) {
@@ -20,8 +19,27 @@ export default {
         const url = `${this.baseURL}/logout`;
         try {
             await axios.post(url, {});
-            window.$cookies.remove('user');
             return null;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    getAuthorized: async function () {
+        const url = `${this.baseURL}/authorized`;
+        try {
+            const result = await axios.get(url);
+            return result.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    getSession: async function () {
+        const url = `${this.baseURL}/session`;
+        try {
+            const result = await axios.get(url);
+            return result;
         } catch (error) {
             throw error;
         }

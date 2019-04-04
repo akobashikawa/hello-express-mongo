@@ -2,8 +2,8 @@ const usersService = require('../services/users');
 
 exports.getAll = async (req, res) => {
     console.log('getAll');
-    console.log('session', req.session);
-    console.log('user', req.user);
+    console.log('req.session', req.session);
+    console.log('req.user', req.user);
     try {
         const result = await usersService.getAll();
         res.json(result);
@@ -52,6 +52,9 @@ exports.update = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
+    console.log('usersController login');
+    console.log('req.session', req.session);
+    console.log('req.user', req.user);
     try {
         const data = req.body;
         const result = await usersService.login(data);
@@ -63,12 +66,24 @@ exports.login = async (req, res) => {
     }
 };
 
-exports.logout = (req, res) => {
-    // req.logout();
-    req.session.destroy();
-    res.json({
-        message: 'logged out'
-    });
+exports.logout = async (req, res) => {
+    console.log('usersController logout');
+    console.log('req.user', req.user);
+    try {
+        // we need to clear both session and passport logged user
+        await req.session.destroy();
+        await req.logout();
+        console.log('after session destroy');
+        console.log('req.session', req.session);
+        console.log('req.user', req.user);
+        res.json({
+            message: 'logged out'
+        });
+    } catch (error) {
+        res.status(403).json({
+            message: error.message,
+        });
+    }
 };
 
 exports.authorized = (req, res) => {
@@ -83,4 +98,20 @@ exports.unauthorized = (req, res) => {
     console.log('req.session', req.session);
     console.log('req.user', req.user);
     return res.status(403).json(req.user);
+};
+
+exports.session = (req, res) => {
+    console.log('usersController session');
+    console.log('req.session', req.session);
+    console.log('req.user', req.user);
+    const result = {};
+    if (req.session.views) {
+        req.session.views++;
+    } else {
+        req.session.views = 1;
+    }
+    result.views = req.session.views;
+    result.expiresIn = req.session.cookie._expires;
+    result.user = req.user;
+    return res.json(result);
 };

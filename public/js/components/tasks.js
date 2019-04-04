@@ -11,10 +11,6 @@ export default {
         };
     },
     props: ['loading'],
-    created: function () {
-    },
-    mounted: function () {
-    },
     methods: {
         getTasksService: async function () {
             const url = `${this.baseURL}/`;

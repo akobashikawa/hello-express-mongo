@@ -1,6 +1,8 @@
 import router from './router.js';
 import store from './store.js';
 
+import usersService from './services/users.js';
+
 Vue.use(Toasted, {
     position: 'bottom-center',
     duration: 2000
@@ -22,7 +24,7 @@ axios.interceptors.response.use(function (response) {
     return Promise.reject(error);
 });
 
-Vue.component('LoginButton', {
+const LoginButton = {
     template: `
 <div>
 <ul class="navbar-nav px-3">
@@ -42,7 +44,7 @@ Vue.component('LoginButton', {
             return this.$store.getters['user'];
         }
     }
-});
+};
 
 
 const app = new Vue({
@@ -51,6 +53,7 @@ const app = new Vue({
     data: {
         loading: false
     },
+    components: { LoginButton },
     computed: {
         cookies: function () {
             return window.$cookies.keys();
@@ -59,4 +62,13 @@ const app = new Vue({
             return window.$cookies.get('connect.sid');
         },
     },
+    created: async function () {
+        // update store after page reload
+        try {
+            const user = await usersService.getAuthorized();
+            this.$store.commit('setUser', user);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }).$mount('#app');

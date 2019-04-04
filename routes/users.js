@@ -13,6 +13,7 @@ router.post('/login', passportMid.authenticate, usersController.authorized);
 router.post('/logout', usersController.logout);
 router.get('/authorized', usersController.authorized);
 router.get('/unauthorized', usersController.unauthorized);
-router.get('/logout', passportMid.logout);
+
+router.get('/session', usersController.session);
 
 module.exports = router;
