@@ -110,8 +110,8 @@ exports.session = (req, res) => {
     } else {
         req.session.views = 1;
     }
-    result.views = req.session.views;
-    result.expiresIn = req.session.cookie._expires;
+    result.session = req.session;
+    result.sessionID = req.sessionID;
     result.user = req.user;
     return res.json(result);
 };
