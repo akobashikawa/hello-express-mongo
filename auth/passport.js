@@ -7,6 +7,7 @@ const usersService = require('../services/users');
 passport.serializeUser(function (user, done) {
     console.log('serializeUser', user);
     done(null, user.id);
+    // done(null, user); // simple
 });
 
 // run on every request after login 
@@ -16,6 +17,7 @@ passport.deserializeUser(function (id, done) {
         .then(user => {
             done(null, user)
         });
+    // done(null, id); // simple
 });
 
 passport.use(new LocalStrategy(function (username, password, done) {
@@ -48,7 +50,5 @@ exports.isAuthenticated = (req, res, next) => {
         });
     }
 };
-
-exports.logout = (req, res) => req.logout();
 
 exports.passport = passport;
