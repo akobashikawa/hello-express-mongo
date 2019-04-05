@@ -11,7 +11,7 @@ const user = {
     },
     mutations: {
         setUser: (state, user) => {
-            console.log('store.mutations.setUser', user);
+            console.log('store.mutations.setUser', user, user ? user : null);
             state.user = (user ? user : null)
         },
     },
