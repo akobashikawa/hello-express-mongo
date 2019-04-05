@@ -1,6 +1,7 @@
 const passport = require('passport');
-const LocalStrategy = require('passport-local');
+// const LocalStrategy = require('passport-local');
 // const LocalAPIKeyStrategy = require('passport-localapikey/strategy');
+const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
 const usersService = require('../services/users');
 
 // run on every login
@@ -20,7 +21,27 @@ passport.deserializeUser(function (id, done) {
     // done(null, id); // simple
 });
 
-passport.use(new LocalStrategy(function (username, password, done) {
+// passport.use(new LocalStrategy(function (username, password, done) {
+//     const data = { username, password };
+//     usersService.login(data)
+//         .then(user => {
+//             return done(null, user);
+//         })
+//         .catch(err => {
+//             return done(err, false);
+//         });
+// }));
+
+// passport.use(new LocalAPIKeyStrategy(function (apikey, done) {
+//     console.log(apikey);
+//     return done(null, { test: 1 });
+// }));
+
+passport.use(new JwtStrategy({
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: 'secret',
+}, function (jwt_payload, done) {
+    console.log({ jwt_payload });
     const data = { username, password };
     usersService.login(data)
         .then(user => {
@@ -30,11 +51,6 @@ passport.use(new LocalStrategy(function (username, password, done) {
             return done(err, false);
         });
 }));
-
-// passport.use(new LocalAPIKeyStrategy(function (apikey, done) {
-//     console.log(apikey);
-//     return done(null, { test: 1 });
-// }));
 
 exports.authenticate = passport.authenticate('local', { failWithError: true, session: true });
 

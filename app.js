@@ -2,7 +2,6 @@ const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
-const session = require('express-session');
 const passport = require('passport');
 const history = require('connect-history-api-fallback');
 
@@ -21,13 +20,8 @@ require('dotenv').config();
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(session({
-  secret: 'keyboard cat',
-  cookie: { maxAge: 300000, httpOnly: false }
-}));
 
 app.use(passport.initialize());
-app.use(passport.session());
 
 // app.use('/', indexRouter);
 app.use('/api/tasks', tasksRouter);

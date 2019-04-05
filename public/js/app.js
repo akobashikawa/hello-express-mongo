@@ -55,11 +55,8 @@ const app = new Vue({
     },
     components: { LoginButton },
     computed: {
-        cookies: function () {
-            return window.$cookies.keys();
-        },
-        sessionCookie: function () {
-            return window.$cookies.get('connect.sid');
+        session: function () {
+            return localStorage.session;
         },
     },
     created: async function () {
