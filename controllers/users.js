@@ -70,10 +70,7 @@ exports.logout = async (req, res) => {
     console.log('usersController logout');
     console.log('req.user', req.user);
     try {
-        // we need to clear both session and passport logged user
-        await req.session.destroy();
-        await req.logout();
-        console.log('after session destroy');
+        // actually, nothing to do, cause no session at backend level
         console.log('req.session', req.session);
         console.log('req.user', req.user);
         res.json({
@@ -88,6 +85,8 @@ exports.logout = async (req, res) => {
 
 exports.authorized = (req, res) => {
     console.log('usersController authorized');
+    console.log('req.headers', req.headers);
+    console.log('req.body', req.body);
     console.log('req.session', req.session);
     console.log('req.user', req.user);
     return res.json(req.user);
@@ -95,6 +94,8 @@ exports.authorized = (req, res) => {
 
 exports.unauthorized = (req, res) => {
     console.log('usersController unauthorized');
+    console.log('req.headers', req.headers);
+    console.log('req.body', req.body);
     console.log('req.session', req.session);
     console.log('req.user', req.user);
     return res.status(403).json(req.user);

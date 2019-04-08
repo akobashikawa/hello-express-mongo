@@ -1,70 +1,46 @@
+require('dotenv').config();
+
 const passport = require('passport');
-// const LocalStrategy = require('passport-local');
-// const LocalAPIKeyStrategy = require('passport-localapikey/strategy');
+const LocalStrategy = require('passport-local');
 const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
+const jwt = require('jsonwebtoken');
+const jwtSecret = process.env.JWT_SECRET;
+
 const usersService = require('../services/users');
 
-// run on every login
-passport.serializeUser(function (user, done) {
-    console.log('serializeUser', user);
-    done(null, user.id);
-    // done(null, user); // simple
-});
 
-// run on every request after login 
-passport.deserializeUser(function (id, done) {
-    console.log('deserializeUser', id);
-    usersService.get(id)
-        .then(user => {
-            done(null, user)
-        });
-    // done(null, id); // simple
-});
-
-// passport.use(new LocalStrategy(function (username, password, done) {
-//     const data = { username, password };
-//     usersService.login(data)
-//         .then(user => {
-//             return done(null, user);
-//         })
-//         .catch(err => {
-//             return done(err, false);
-//         });
-// }));
-
-// passport.use(new LocalAPIKeyStrategy(function (apikey, done) {
-//     console.log(apikey);
-//     return done(null, { test: 1 });
-// }));
-
-passport.use(new JwtStrategy({
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: 'secret',
-}, function (jwt_payload, done) {
-    console.log({ jwt_payload });
+passport.use('login', new LocalStrategy(function (username, password, done) {
+    console.log('passport LocalStrategy - login', { username, password });
     const data = { username, password };
     usersService.login(data)
         .then(user => {
+            const token = jwt.sign(user, jwtSecret);
+            user.token = token;
             return done(null, user);
         })
         .catch(err => {
+            err.status = 401;
             return done(err, false);
         });
 }));
 
-exports.authenticate = passport.authenticate('local', { failWithError: true, session: true });
-
-exports.isAuthenticated = (req, res, next) => {
-    console.log('passportMid isAuthenticated');
-    console.log('req.session', req.session);
-    console.log('req.user', req.user);
-    if (req.user) {
-        return next();
-    } else {
-        return res.status(401).json({
-            error: 'Not authenticated'
+passport.use('jwt', new JwtStrategy({
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: jwtSecret
+}, function (jwt_payload, done) {
+    console.log('passport JwtStrategy - jwt', { jwt_payload });
+    const id = jwt_payload.id;
+    usersService.get(id)
+        .then(user => {
+            done(null, user);
+        })
+        .catch(err => {
+            err.status = 401;
+            done(err, false);
         });
-    }
-};
+}));
+
+exports.authenticate = passport.authenticate('login', { failWithError: true, session: false });
+exports.isAuthenticated = passport.authenticate('jwt', { session: false });
 
 exports.passport = passport;

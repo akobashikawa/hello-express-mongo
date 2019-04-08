@@ -16,7 +16,9 @@ export default {
             };
         },
         user: function () {
-            return this.$store.getters['user'];
+            const user = this.$store.getters['user'];
+            localStorage.setItem('user', JSON.stringify(user));
+            return user;
         }
     },
     methods: {
@@ -33,10 +35,10 @@ export default {
             }
         },
         logout: async function () {
-            console.log('logout');
             this.error = '';
             try {
                 await this.$store.dispatch('logoutUser');
+                localStorage.removeItem('user');
                 this.$router.push('/');
             } catch (error) {
                 console.log(error);

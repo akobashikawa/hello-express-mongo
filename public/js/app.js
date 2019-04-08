@@ -9,6 +9,10 @@ Vue.use(Toasted, {
 });
 
 axios.interceptors.request.use(function (config) {
+    const user = store.getters['user'];
+    if (user) {
+        config.headers['Authorization'] = `Bearer ${user.token}`;
+    }
     app.loading = true;
     return config;
 }, function (error) {
@@ -55,14 +59,12 @@ const app = new Vue({
     },
     components: { LoginButton },
     computed: {
-        session: function () {
-            return localStorage.session;
-        },
     },
     created: async function () {
         // update store after page reload
         try {
-            const user = await usersService.getAuthorized();
+            const userJson = localStorage.getItem('user');
+            const user = JSON.parse(userJson);
             this.$store.commit('setUser', user);
         } catch (error) {
             console.log(error);

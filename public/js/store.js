@@ -11,7 +11,6 @@ const user = {
     },
     mutations: {
         setUser: (state, user) => {
-            console.log('store.mutations.setUser', user, user ? user : null);
             state.user = (user ? user : null)
         },
     },
@@ -22,9 +21,7 @@ const user = {
         },
         logoutUser: async ({ commit }) => {
             await usersService.logout();
-            const user = await usersService.getAuthorized();
-            console.log({ user });
-            commit('setUser', user);
+            commit('setUser', null);
         }
     }
 };
