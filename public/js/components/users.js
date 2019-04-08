@@ -163,7 +163,7 @@ export default {
                                 <div class="form-row">
                                     <div class="col-md-4"> 
                                         <label>Username</label>
-                                        <input type="text" class="form-control" v-model="user.usernameUpdate" :ref="'username_' + user._id" placeholder="Username" v-on:keyup.esc="cancelEditUser(user)">
+                                        <input type="text" class="form-control" v-model="user.usernameUpdate" :ref="'username_' + user._id" placeholder="Username" v-on:keyup.esc="cancelEditUser(user)" disabled>
                                     </div>
                                     <div class="col-md-4">
                                         <label>Current password</label>
