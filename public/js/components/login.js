@@ -1,7 +1,6 @@
 export default {
     data: function () {
         return {
-            baseURL: window.location.origin + '/api/users',
             username: '',
             password: '',
             error: '',

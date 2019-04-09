@@ -1,5 +1,5 @@
 export default {
-    baseURL: window.location.origin + '/api/users',
+    baseURL: window.location.origin + '/api/auth',
 
     login: async function (loginData) {
         const url = `${this.baseURL}/login`;

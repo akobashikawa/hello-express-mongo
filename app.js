@@ -6,6 +6,7 @@ const passport = require('passport');
 const history = require('connect-history-api-fallback');
 
 const indexRouter = require('./routes/index');
+const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
 const tasksRouter = require('./routes/tasks');
 
@@ -24,8 +25,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
 
 // app.use('/', indexRouter);
-app.use('/api/tasks', tasksRouter);
+app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/tasks', tasksRouter);
 
 // public
 app.use(history({

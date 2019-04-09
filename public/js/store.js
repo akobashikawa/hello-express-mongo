@@ -1,4 +1,4 @@
-import usersService from './services/users.js';
+import authService from './services/auth.js';
 
 Vue.use(Vuex);
 
@@ -16,11 +16,11 @@ const user = {
     },
     actions: {
         loginUser: async ({ commit }, loginData) => {
-            const user = await usersService.login(loginData);
+            const user = await authService.login(loginData);
             commit('setUser', user);
         },
         logoutUser: async ({ commit }) => {
-            await usersService.logout();
+            await authService.logout();
             commit('setUser', null);
         }
     }

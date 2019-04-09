@@ -9,11 +9,4 @@ router.post('/', passportMid.isAuthenticated, usersController.add);
 router.delete('/:id', passportMid.isAuthenticated, usersController.delete);
 router.put('/:id', passportMid.isAuthenticated, usersController.update);
 
-router.post('/login', passportMid.authenticate, usersController.authorized);
-router.post('/logout', usersController.logout);
-router.get('/authorized', usersController.authorized);
-router.get('/unauthorized', usersController.unauthorized);
-
-router.get('/session', usersController.session);
-
 module.exports = router;

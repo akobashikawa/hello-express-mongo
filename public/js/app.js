@@ -1,7 +1,6 @@
 import router from './router.js';
 import store from './store.js';
 
-import usersService from './services/users.js';
 
 Vue.use(Toasted, {
     position: 'bottom-center',

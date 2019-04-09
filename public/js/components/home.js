@@ -1,5 +1,3 @@
-import usersService from '../services/users.js';
-
 export default {
     template: `<div class="home-component">
         <h1>Home</h1>
