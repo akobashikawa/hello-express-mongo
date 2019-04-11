@@ -1,10 +1,10 @@
-const usersService = require('../services/users');
+const authService = require('../services/auth');
 
 exports.login = async (req, res) => {
     console.log('authController login');
     try {
         const data = req.body;
-        const result = await usersService.login(data);
+        const result = await authService.login(data);
         res.json(result);
     } catch (error) {
         res.status(403).json({
@@ -39,4 +39,20 @@ exports.unauthorized = (req, res) => {
     console.log('req.headers', req.headers);
     console.log('req.body', req.body);
     return res.status(403).json(req.user);
+};
+
+exports.session = (req, res) => {
+    console.log('usersController session');
+    console.log('req.session', req.session);
+    console.log('req.user', req.user);
+    const result = {};
+    if (req.session.views) {
+        req.session.views++;
+    } else {
+        req.session.views = 1;
+    }
+    result.session = req.session;
+    result.sessionID = req.sessionID;
+    result.user = req.user;
+    return res.json(result);
 };

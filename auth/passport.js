@@ -6,13 +6,13 @@ const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
 const jwt = require('jsonwebtoken');
 const jwtSecret = process.env.JWT_SECRET;
 
-const usersService = require('../services/users');
+const authService = require('../services/auth');
 
 
 passport.use('login', new LocalStrategy(function (username, password, done) {
     console.log('passport LocalStrategy - login', { username, password });
     const data = { username, password };
-    usersService.login(data)
+    authService.login(data)
         .then(user => {
             const token = jwt.sign(user, jwtSecret);
             user.token = token;
@@ -30,7 +30,7 @@ passport.use('jwt', new JwtStrategy({
 }, function (jwt_payload, done) {
     console.log('passport JwtStrategy - jwt', { jwt_payload });
     const id = jwt_payload.id;
-    usersService.get(id)
+    authService.get(id)
         .then(user => {
             done(null, user);
         })
