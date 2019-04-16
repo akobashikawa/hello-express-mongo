@@ -24,7 +24,7 @@ export default {
         login: async function () {
             this.error = '';
             try {
-                this.$store.dispatch('auth/loginUser', this.loginData);
+                await this.$store.dispatch('auth/loginUser', this.loginData);
             } catch (error) {
                 console.log(error);
                 this.error = error.response.data.message;
