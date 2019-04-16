@@ -44,7 +44,7 @@ const LoginButton = {
 </div>`,
     computed: {
         user: function () {
-            return this.$store.getters['user'];
+            return this.$store.getters['auth/user'];
         }
     }
 };
@@ -59,12 +59,12 @@ const app = new Vue({
     components: { LoginButton },
     computed: {
     },
-    created: async function () {
+    created: function () {
         // update store after page reload
         try {
             const userJson = localStorage.getItem('user');
-            const user = JSON.parse(userJson);
-            this.$store.commit('setUser', user);
+            const user = (userJson == undefined) ? JSON.parse(userJson) : null;
+            this.$store.commit('auth/setUser', user);
         } catch (error) {
             console.log(error);
         }

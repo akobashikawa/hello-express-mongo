@@ -15,7 +15,7 @@ export default {
             };
         },
         user: function () {
-            const user = this.$store.getters['user'];
+            const user = this.$store.getters['auth/user'];
             localStorage.setItem('user', JSON.stringify(user));
             return user;
         }
@@ -24,7 +24,7 @@ export default {
         login: async function () {
             this.error = '';
             try {
-                this.$store.dispatch('loginUser', this.loginData);
+                this.$store.dispatch('auth/loginUser', this.loginData);
             } catch (error) {
                 console.log(error);
                 this.error = error.response.data.message;
@@ -36,7 +36,7 @@ export default {
         logout: async function () {
             this.error = '';
             try {
-                await this.$store.dispatch('logoutUser');
+                await this.$store.dispatch('auth/logoutUser');
                 localStorage.removeItem('user');
                 this.$router.push('/');
             } catch (error) {

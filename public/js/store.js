@@ -2,7 +2,8 @@ import authService from './services/auth.js';
 
 Vue.use(Vuex);
 
-const user = {
+const auth = {
+    namespaced: true,
     state: {
         user: null
     },
@@ -28,6 +29,6 @@ const user = {
 
 export default new Vuex.Store({
     modules: {
-        user
+        auth
     }
 });
