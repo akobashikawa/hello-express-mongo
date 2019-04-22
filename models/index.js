@@ -10,4 +10,4 @@ mongoose.connect(`${process.env.MONGO_URL}`, { useNewUrlParser: true });
 
 exports.Task = Task;
 
-exports.User = User
+exports.User = User;
